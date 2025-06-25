@@ -72,7 +72,7 @@ jobs:
       - name: Install Homebrew Packages
         continue-on-error: true
         run: |
-          sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           REQUIRED_PACKAGES=(
               # Build
 
