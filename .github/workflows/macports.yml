@@ -50,11 +50,11 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo port install \
+            llvm-mingw \
             bison \
             ccache \
             gettext \
             mingw-w64 \
-            llvm-mingw \
             pkgconfig
 
       - name: Install runtime dependencies
