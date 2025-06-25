@@ -19,6 +19,7 @@ env:
   WINE_CONFIGURE: $GITHUB_WORKSPACE/sources/wine/configure
   BUILDROOT: $GITHUB_WORKSPACE/build
   WINE_INSTALLROOT: install
+  ARCHIVE_ROOT: Libraries
   WINE_MONO: https://github.com/wine-mono/wine-mono/releases/download/wine-mono-10.1.0/wine-mono-10.1.0-x86.tar.xz
 
 jobs:
@@ -173,14 +174,16 @@ jobs:
       - name: Create Final Package
         continue-on-error: true
         run: |
+          mkdir ${{ env.ARCHIVE_ROOT }}/Wine
+          mkdir ${{ env.ARCHIVE_ROOT }}/DXVK
 
-          mv ${{ env.WINE_INSTALLROOT }} ${{ env.WINE_INSTALLROOT }}/Wine/
+          mv ${{ env.WINE_INSTALLROOT }} ${{ env.ARCHIVE_ROOT }}/Wine
 
           rm -rf ${{ env.WINE_INSTALLROOT }}/Wine/share/man
 
-          cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.WINE_INSTALLROOT }}
-          cp -a verbs.txt ${{ env.WINE_INSTALLROOT }}
-          cp -a DXVK ${{ env.WINE_INSTALLROOT }}
+          cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.ARCHIVE_ROOT }}
+          cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
+          cp -a DXVK ${{ env.ARCHIVE_ROOT }}/DXVK
 
       - name: Copy External Libs
         continue-on-error: true
@@ -191,25 +194,25 @@ jobs:
       - name: Install GPTK
         continue-on-error: true
         run: |
-          ditto GPTK/redist/lib/ ${{ env.WINE_INSTALLROOT }}/Wine/lib/
+          ditto GPTK/redist/lib/ ${{ env.ARCHIVE_ROOT }}/Wine/lib/
 
       - name: Copy Version .plist
         continue-on-error: true
         run: |
-          cp -a WhiskyWineVersion.plist ${{ env.WINE_INSTALLROOT }}/
+          cp -a WhiskyWineVersion.plist ${{ env.ARCHIVE_ROOT }}/
 
       - name: Install WineMono
         continue-on-error: true
         run: |
-          mkdir ${{ env.WINE_INSTALLROOT }}/Wine/share/wine/mono
+          mkdir ${{ env.ARCHIVE_ROOT }}/Wine/share/wine/mono
 
           curl -L -o mono.tar.xz ${{ env.WINE_MONO }}
-          tar -xzf mono.tar.xz -C ${{ env.WINE_INSTALLROOT }}/Wine/share/wine/mono
+          tar -xzf mono.tar.xz -C ${{ env.ARCHIVE_ROOT }}/Wine/share/wine/mono
           
       - name: Tar wine
         continue-on-error: true
         run: |
-          tar -czvf ${{ env.WINE_INSTALLATION }}.tar.gz ${{ env.WINE_INSTALLROOT }}
+          tar -czvf ${{ env.WINE_INSTALLATION }}.tar.gz ${{ env.ARCHIVE_ROOT }}
 
       - name: Uploading wine
         uses: actions/upload-artifact@v4
