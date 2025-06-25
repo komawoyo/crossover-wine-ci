@@ -124,7 +124,7 @@ jobs:
       - name: Build wine
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
-          make -j$(sysctl -n hw.ncpu 2>/dev/null)
+          #make -j$(sysctl -n hw.ncpu 2>/dev/null)
           popd
 
       - name: Install wine
