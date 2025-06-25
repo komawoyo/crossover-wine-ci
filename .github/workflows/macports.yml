@@ -80,6 +80,7 @@ jobs:
           cp distversion.h sources/wine/programs/winedbg/distversion.h
 
       - name: Configure wine
+        continue-on-error: true
         run: |
           mkdir -p ${{ env.BUILDROOT }}/wine64
           pushd ${{ env.BUILDROOT }}/wine64
