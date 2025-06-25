@@ -1,6 +1,7 @@
 name: macports
 
 on:
+  push:
   workflow_dispatch:
 
 env:
