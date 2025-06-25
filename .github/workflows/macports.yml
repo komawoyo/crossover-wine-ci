@@ -83,7 +83,7 @@ jobs:
         run: |
           mkdir -p ${{ env.BUILDROOT }}/wine64
           pushd ${{ env.BUILDROOT }}/wine64
-          ${{ env.WINE_CONFIGURE }} \
+          #${{ env.WINE_CONFIGURE }} \
             --build=x86_64-apple-darwin \
             --prefix= \
             --disable-tests \
@@ -132,7 +132,7 @@ jobs:
         continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
-          make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
+          #make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
           popd
 
       - name: Configure wine32on64
