@@ -62,8 +62,10 @@ jobs:
             freetype \
             gettext-runtime \
             gnutls-devel \
+            gstreamer1 \
             libinotify \
             moltenvk \
+            winetricks \
             libsdl2
             
       - name: Install Homebrew Packages
@@ -73,9 +75,6 @@ jobs:
               # Build
 
               # Dependencies
-              "ffmpeg"
-              "gstreamer"
-              "winetricks"
           )
 
           brew update
