@@ -65,6 +65,22 @@ jobs:
             libinotify \
             moltenvk \
             libsdl2
+            
+      - name: Install Homebrew Packages
+        continue-on-error: true
+        run: |
+          REQUIRED_PACKAGES=(
+              # Build
+
+              # Dependencies
+              "ffmpeg"
+              "gstreamer"
+              "winetricks"
+          )
+
+          brew update
+          brew upgrade
+          brew install "${REQUIRED_PACKAGES[@]}"
 
       - name: Download Crossover Sources
         run: |
