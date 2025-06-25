@@ -151,6 +151,19 @@ jobs:
           make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
           popd
 
+      - name: Grab Verbs From Winetricks
+        run: |
+          curl -L -o verbs.txt https://raw.githubusercontent.com/Winetricks/winetricks/master/files/verbs/all.txt
+
+      - name: Create Final Package
+        continue-on-error: true
+        run: |
+          rm -rf ${{ env.WINE_INSTALLROOT }}/Wine64/share/man
+
+          cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.WINE_INSTALLROOT }}
+          cp -a verbs.txt ${{ env.WINE_INSTALLROOT }}
+          cp -a DXVK ${{ env.WINE_INSTALLROOT }}
+          
       - name: Tar wine
         run: |
           tar -czvf ${{ env.WINE_INSTALLATION }}.tar.gz ${{ env.WINE_INSTALLROOT }}
