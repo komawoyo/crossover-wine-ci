@@ -76,12 +76,25 @@ jobs:
               # Build
 
               # Dependencies
+              "gstreamer"
           )
 
           brew update
           brew upgrade
           brew install "${REQUIRED_PACKAGES[@]}"
 
+      - name: Echo Libs [DEBUG]
+        continue-on-error: true
+        run: |
+          echo "Brew Libs"
+          ls $(brew --prefix)/lib
+
+          echo "FFmpeg Libs" 
+          ls $(brew --prefix ffmpeg@7)/lib
+
+          echo "GStreamer Libs"
+          ls $(brew --prefix gstreamer)/lib/gstreamer-1.0
+          
       - name: Download Crossover Sources
         run: |
           curl -o ${{ env.CROSS_OVER_LOCAL_FILE }}.tar.gz ${{ env.CROSS_OVER_SOURCE_URL }}
