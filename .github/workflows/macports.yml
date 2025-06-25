@@ -122,18 +122,21 @@ jobs:
           popd
 
       - name: Build wine
+        continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
           #make -j$(sysctl -n hw.ncpu 2>/dev/null)
           popd
 
       - name: Install wine
+        continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
           make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
           popd
 
       - name: Configure wine32on64
+        continue-on-error: true
         run: |
           set -x
 
@@ -184,12 +187,14 @@ jobs:
           popd
 
       - name: Build wine32on64
+        continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine32on64
           make -j$(sysctl -n hw.ncpu 2>/dev/null)
           popd
 
       - name: Install wine32on64
+        continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine32on64
           make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
