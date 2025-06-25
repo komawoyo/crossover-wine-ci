@@ -54,7 +54,6 @@ jobs:
             ccache \
             gettext \
             mingw-w64 \
-            clang-20 \
             pkgconfig
 
       - name: Install runtime dependencies
@@ -101,7 +100,7 @@ jobs:
             --without-gphoto \
             --with-gnutls \
             --without-gssapi \
-            --without-gstreamer \
+            --with-gstreamer \
             --with-inotify \
             --without-krb5 \
             --with-mingw \
@@ -133,71 +132,6 @@ jobs:
         continue-on-error: true
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
-          make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
-          popd
-
-      - name: Configure wine32on64
-        continue-on-error: true
-        run: |
-          set -x
-
-          export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
-          export ac_cv_lib_soname_vulkan=""
-
-          mkdir -p ${{ env.BUILDROOT }}/wine32on64
-          pushd ${{ env.BUILDROOT }}/wine32on64
-          ${{ env.WINE_CONFIGURE }} \
-            --prefix= \
-            --disable-loader \
-            --disable-tests \
-            --disable-winedbg \
-            --enable-win32on64 \
-            --without-alsa \
-            --without-capi \
-            --with-coreaudio \
-            --with-cups \
-            --without-dbus \
-            --without-fontconfig \
-            --with-freetype \
-            --with-gettext \
-            --without-gettextpo \
-            --without-gphoto \
-            --with-gnutls \
-            --without-gssapi \
-            --without-gstreamer \
-            --without-inotify \
-            --without-krb5 \
-            --with-mingw \
-            --without-netapi \
-            --without-openal \
-            --with-opencl \
-            --with-opengl \
-            --without-oss \
-            --with-pcap \
-            --with-pthread \
-            --without-pulse \
-            --without-sane \
-            --with-sdl \
-            --without-udev \
-            --with-unwind \
-            --without-usb \
-            --without-v4l2 \
-            --with-vulkan \
-            --with-wine64=${{ env.BUILDROOT }}/wine64 \
-            --without-x
-          popd
-
-      - name: Build wine32on64
-        continue-on-error: true
-        run: |
-          pushd ${{ env.BUILDROOT }}/wine32on64
-          make -j$(sysctl -n hw.ncpu 2>/dev/null)
-          popd
-
-      - name: Install wine32on64
-        continue-on-error: true
-        run: |
-          pushd ${{ env.BUILDROOT }}/wine32on64
           make install-lib DESTDIR="$GITHUB_WORKSPACE/${{ env.WINE_INSTALLROOT }}"
           popd
 
