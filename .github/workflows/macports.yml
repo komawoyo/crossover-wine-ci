@@ -164,10 +164,8 @@ jobs:
       - name: Create Final Package
         continue-on-error: true
         run: |
-          mkdir -p ${{ env.WINE_INSTALLROOT }}/DXVK
-          mkdir -p ${{ env.WINE_INSTALLROOT }}/Wine
 
-          cp -a ${{ env.WINE_INSTALLROOT }}/. ${{ env.WINE_INSTALLROOT }}/Wine/
+          mv -a ${{ env.WINE_INSTALLROOT }}/. ${{ env.WINE_INSTALLROOT }}/Wine/
 
           rm -rf ${{ env.WINE_INSTALLROOT }}/Wine/share/man
 
