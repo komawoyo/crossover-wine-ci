@@ -19,6 +19,7 @@ env:
   WINE_CONFIGURE: $GITHUB_WORKSPACE/sources/wine/configure
   BUILDROOT: $GITHUB_WORKSPACE/build
   WINE_INSTALLROOT: install
+  WINE_MONO: https://github.com/wine-mono/wine-mono/releases/download/wine-mono-10.1.0/wine-mono-10.1.0-x86.tar.xz
 
 jobs:
   wine-crossover:
@@ -29,6 +30,8 @@ jobs:
         CROSS_OVER_VERSION: [25.0.1]
 
     runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
 
     env:
       CROSS_OVER_SOURCE_URL: https://media.codeweavers.com/pub/crossover/source/crossover-sources-${{ matrix.CROSS_OVER_VERSION }}.tar.gz
@@ -63,7 +66,6 @@ jobs:
             freetype \
             gettext-runtime \
             gnutls-devel \
-            gstreamer1 \
             libinotify \
             moltenvk \
             winetricks \
@@ -116,7 +118,7 @@ jobs:
             --without-gphoto \
             --with-gnutls \
             --without-gssapi \
-            --with-gstreamer \
+            --without-gstreamer \
             --with-inotify \
             --without-krb5 \
             --with-mingw \
@@ -152,19 +154,55 @@ jobs:
           popd
 
       - name: Grab Verbs From Winetricks
+        continue-on-error: true
+        run: |
+          curl -L -o verbs.txt https://raw.githubusercontent.com/Winetricks/winetricks/master/files/verbs/all.txt
+
+      - name: Grab Verbs From Winetricks
+        continue-on-error: true
         run: |
           curl -L -o verbs.txt https://raw.githubusercontent.com/Winetricks/winetricks/master/files/verbs/all.txt
 
       - name: Create Final Package
         continue-on-error: true
         run: |
-          rm -rf ${{ env.WINE_INSTALLROOT }}/Wine64/share/man
+          mkdir -p ${{ env.WINE_INSTALLROOT }}/DXVK
+          mkdir -p ${{ env.WINE_INSTALLROOT }}/Wine
 
-          cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.WINE_INSTALLROOT }}
+          cp -a ${{ env.WINE_INSTALLROOT }}/. ${{ env.WINE_INSTALLROOT }}/Wine/
+
+          rm -rf ${{ env.WINE_INSTALLROOT }}/Wine/share/man
+
+          cp -a $(brew --prefix winetricks)/bin/winetricks Libraries
           cp -a verbs.txt ${{ env.WINE_INSTALLROOT }}
           cp -a DXVK ${{ env.WINE_INSTALLROOT }}
+
+      - name: Copy External Libs
+        continue-on-error: true
+        run: |
+          chmod +x .github/dylib_packer.zsh
+          .github/dylib_packer.zsh
+
+      - name: Install GPTK
+        continue-on-error: true
+        run: |
+          ditto GPTK/redist/lib/ ${{ env.WINE_INSTALLROOT }}/Wine/lib/
+
+      - name: Copy Version .plist
+        continue-on-error: true
+        run: |
+          cp -a WhiskyWineVersion.plist ${{ env.WINE_INSTALLROOT }}/
+
+      - name: Install WineMono
+        continue-on-error: true
+        run: |
+          mkdir ${{ env.WINE_INSTALLROOT }}/Wine/share/wine/mono
+
+          curl -L -o mono.tar.xz ${{ env.WINE_MONO }}
+          tar -xzf mono.tar.xz -C ${{ env.WINE_INSTALLROOT }}/Wine/share/wine/mono
           
       - name: Tar wine
+        continue-on-error: true
         run: |
           tar -czvf ${{ env.WINE_INSTALLATION }}.tar.gz ${{ env.WINE_INSTALLROOT }}
 
