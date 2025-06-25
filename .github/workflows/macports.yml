@@ -50,7 +50,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo port install \
-            llvm-mingw \
+            llvm \
             bison \
             ccache \
             gettext \
