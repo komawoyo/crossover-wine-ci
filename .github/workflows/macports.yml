@@ -178,8 +178,8 @@ jobs:
       - name: Copy External Libs
         continue-on-error: true
         run: |
-          chmod +x .github/dylib_packer.zsh
-          .github/dylib_packer.zsh
+          chmod +x dylib_packer.zsh
+          dylib_packer.zsh
 
       - name: Install GPTK
         continue-on-error: true
