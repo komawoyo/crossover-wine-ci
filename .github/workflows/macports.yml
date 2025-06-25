@@ -54,6 +54,7 @@ jobs:
             ccache \
             gettext \
             mingw-w64 \
+            llvm-mingw \
             pkgconfig
 
       - name: Install runtime dependencies
