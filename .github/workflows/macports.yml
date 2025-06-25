@@ -30,8 +30,6 @@ jobs:
         CROSS_OVER_VERSION: [25.0.1]
 
     runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
 
     env:
       CROSS_OVER_SOURCE_URL: https://media.codeweavers.com/pub/crossover/source/crossover-sources-${{ matrix.CROSS_OVER_VERSION }}.tar.gz
