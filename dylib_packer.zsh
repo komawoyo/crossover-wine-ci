@@ -42,7 +42,7 @@ resolve_rpath() {
   local dylib_name="${ref_dylib#@rpath/}"
 
   # Get Homebrew's lib directory
-  local brew_lib_dir="$(brew --prefix)/lib"
+  local brew_lib_dir="/opt/local/lib"
 
   # Check if the dylib exists in Homebrew's lib directory
   local resolved_path="${brew_lib_dir}/${dylib_name}"
@@ -141,7 +141,7 @@ PREFIX=$(brew --prefix)
 
 # Iterate over the fixed GStreamer libraries array
 for lib in "${GSTREAMER_LIBS[@]}"; do
-  dylib_path="${GSTREAMER_PREFIX}/lib/gstreamer-1.0/${lib}.dylib"
+  dylib_path="/opt/local/lib/gstreamer-1.0/${lib}.dylib"
   
   if [ -f "$dylib_path" ]; then
     echo "Checking dependencies for: $dylib_path"
@@ -153,7 +153,7 @@ done
 
 # Iterate over the fixed non-GStreamer libraries array
 for lib in "${LIBS[@]}"; do
-  dylib_path="${PREFIX}/lib/${lib}.dylib"
+  dylib_path="/opt/local/lib/${lib}.dylib"
   
   if [ -f "$dylib_path" ]; then
     echo "Checking dependencies for: $dylib_path"
@@ -169,7 +169,7 @@ for dylib in "${all_dylibs[@]}"; do
 done
 
 # Copy GStreamer include files
-cp -a "$(brew --prefix gstreamer)/lib/gstreamer-1.0/include" Libraries/Wine/lib/gstreamer-1.0
+cp -a "/opt/local/lib/gstreamer-1.0/include" Libraries/Wine/lib/gstreamer-1.0
 
 # Update specific GStreamer shared object
 update_dylib_paths Libraries/Wine/lib/wine/x86_64-unix/winegstreamer.so "@rpath/"
