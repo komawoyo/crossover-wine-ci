@@ -71,6 +71,12 @@ jobs:
             moltenvk \
             winetricks \
             libsdl2
+
+      - name: Copy External Libs
+        continue-on-error: true
+        run: |
+          chmod +x dylib_packer.zsh
+          dylib_packer.zsh
           
       - name: Download Crossover Sources
         run: |
