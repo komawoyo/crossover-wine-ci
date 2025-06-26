@@ -50,12 +50,6 @@ jobs:
           echo "/opt/local/bin" >> $GITHUB_PATH
           echo "/opt/local/sbin" >> $GITHUB_PATH
 
-      - name: Install Gcenx Port Files
-        run: |
-          sudo git clone https://github.com/Gcenx/macports-wine.git
-          ls
-          sudo port -v sync
-
       - name: Install build dependencies
         run: |
           sudo port install \
