@@ -163,7 +163,7 @@ jobs:
 
           rm -rf ${{ env.ARCHIVE_ROOT }}/Wine/share/man
 
-          cp -a /opt/local/winetricks ${{ env.ARCHIVE_ROOT }}
+          cp -a /opt/local/bin/winetricks ${{ env.ARCHIVE_ROOT }}
           cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
           cp -a DXVK ${{ env.ARCHIVE_ROOT }}/DXVK
 
