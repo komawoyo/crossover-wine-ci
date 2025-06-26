@@ -204,7 +204,7 @@ jobs:
       - name: Install WineMono
         continue-on-error: true
         run: |
-          mkdir ${{ env.ARCHIVE_ROOT }}/Wine/share/wine/mono
+          mkdir -p ${{ env.ARCHIVE_ROOT }}/Wine/share/wine/mono
 
           curl -L -o mono.tar.xz ${{ env.WINE_MONO }}
           tar -xzf mono.tar.xz -C ${{ env.ARCHIVE_ROOT }}/Wine/share/wine/mono
