@@ -174,12 +174,12 @@ jobs:
       - name: Create Final Package
         continue-on-error: true
         run: |
-          mkdir ${{ env.ARCHIVE_ROOT }}/Wine
-          mkdir ${{ env.ARCHIVE_ROOT }}/DXVK
+          mkdir -p ${{ env.ARCHIVE_ROOT }}/Wine
+          mkdir -p ${{ env.ARCHIVE_ROOT }}/DXVK
 
-          mv ${{ env.WINE_INSTALLROOT }} ${{ env.ARCHIVE_ROOT }}/Wine
+          cp -a ${{ env.WINE_INSTALLROOT }}/. ${{ env.ARCHIVE_ROOT }}/Wine/
 
-          rm -rf ${{ env.WINE_INSTALLROOT }}/Wine/share/man
+          rm -rf ${{ env.ARCHIVE_ROOT }}/Wine/share/man
 
           cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.ARCHIVE_ROOT }}
           cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
