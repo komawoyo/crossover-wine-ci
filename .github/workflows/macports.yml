@@ -54,7 +54,6 @@ jobs:
         run: |
           sudo port install \
             gstreamer1-gst-plugins-base \
-            gstreamer1-gst-libav \
             bison \
             ccache \
             gettext \
