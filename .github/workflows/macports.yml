@@ -53,8 +53,7 @@ jobs:
       - name: Install Gcenx Port Files
         run: |
           sudo git clone https://github.com/Gcenx/macports-wine.git
-          mkdir -p /opt/macports-wine
-          cp -a macports-wine /opt/macports-wine
+          ls
           sudo port -v sync
 
       - name: Install build dependencies
