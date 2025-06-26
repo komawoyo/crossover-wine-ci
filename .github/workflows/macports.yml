@@ -53,7 +53,7 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo port install \
-            gstreamer-runtime \
+            gstreamer-development \
             bison \
             ccache \
             gettext \
