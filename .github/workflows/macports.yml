@@ -53,12 +53,12 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo port install \
-            gstreamer1-gst-plugins-base \
             bison \
             ccache \
             gettext \
             mingw-w64 \
-            pkgconfig
+            pkgconfig \
+            zsh \
 
       - name: Install runtime dependencies
         run: |
@@ -66,6 +66,7 @@ jobs:
             freetype \
             gettext-runtime \
             gnutls-devel \
+            gstreamer1-gst-plugins-base \
             libinotify \
             moltenvk \
             winetricks \
@@ -86,13 +87,20 @@ jobs:
       - name: Configure wine
         continue-on-error: true
         run: |
+          set -x
+
+          export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
+          export ac_cv_lib_soname_vulkan=""
+          
           mkdir -p ${{ env.BUILDROOT }}/wine64
           pushd ${{ env.BUILDROOT }}/wine64
           ${{ env.WINE_CONFIGURE }} \
             --build=x86_64-apple-darwin \
             --prefix= \
             --disable-tests \
+            --disable-winedbg \
             --enable-archs=i386,x86_64 \
+            --enable-win64 \
             --without-alsa \
             --without-capi \
             --with-coreaudio \
@@ -155,7 +163,7 @@ jobs:
 
           rm -rf ${{ env.ARCHIVE_ROOT }}/Wine/share/man
 
-          cp -a $(brew --prefix winetricks)/bin/winetricks ${{ env.ARCHIVE_ROOT }}
+          cp -a /opt/local/local/winetricks ${{ env.ARCHIVE_ROOT }}
           cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
           cp -a DXVK ${{ env.ARCHIVE_ROOT }}/DXVK
 
