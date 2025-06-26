@@ -9,12 +9,12 @@ env:
   CXX: ccache clang++ -arch x86_64
   i386_CC: ccache i686-w64-mingw32-gcc
   x86_64_CC: ccache x86_64-w64-mingw32-gcc
-  CPATH: /opt/local/include:/usr/local/include
-  LIBRARY_PATH: /opt/local/lib:/usr/local/lib
+  CPATH: /opt/local/include
+  LIBRARY_PATH: /opt/local/lib
   CFLAGS: -g -O2
   # gcc14.1 now sets -Werror-incompatible-pointer-types
   CROSSCFLAGS: -g -O2 -Wno-error=incompatible-pointer-types
-  LDFLAGS: -Wl,-headerpad_max_install_names -Wl,-rpath,@loader_path/../../ -Wl,-rpath,/opt/local/lib -Wl,-rpath,/usr/local/lib
+  LDFLAGS: -Wl,-headerpad_max_install_names -Wl,-rpath,@loader_path/../../ -Wl,-rpath,/opt/local/lib
   MACOSX_DEPLOYMENT_TARGET: 10.15.4
   WINE_CONFIGURE: $GITHUB_WORKSPACE/sources/wine/configure
   BUILDROOT: $GITHUB_WORKSPACE/build
@@ -50,9 +50,17 @@ jobs:
           echo "/opt/local/bin" >> $GITHUB_PATH
           echo "/opt/local/sbin" >> $GITHUB_PATH
 
+      - name: Install Gcenx Port Files
+        run: |
+          sudo git clone https://github.com/Gcenx/macports-wine.git
+          mkdir -p /opt/macports-wine
+          cp -a macports-wine/. /opt/macports-wine
+          sudo port -v sync
+
       - name: Install build dependencies
         run: |
           sudo port install \
+            gstreamer-runtime \
             bison \
             ccache \
             gettext \
@@ -68,35 +76,7 @@ jobs:
             libinotify \
             moltenvk \
             winetricks \
-            gstreamer1 \
             libsdl2
-            
-      - name: Install Homebrew Packages
-        continue-on-error: true
-        run: |
-          #/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          REQUIRED_PACKAGES=(
-              # Build
-
-              # Dependencies
-              "gstreamer"
-          )
-
-          #brew update
-          #brew upgrade
-          #brew install "${REQUIRED_PACKAGES[@]}"
-
-      - name: Echo Libs [DEBUG]
-        continue-on-error: true
-        run: |
-          echo "Brew Libs"
-          ls $(brew --prefix)/lib
-
-          echo "FFmpeg Libs" 
-          ls $(brew --prefix ffmpeg@7)/lib
-
-          echo "GStreamer Libs"
-          ls $(brew --prefix gstreamer)/lib/gstreamer-1.0
           
       - name: Download Crossover Sources
         run: |
