@@ -54,7 +54,7 @@ jobs:
         run: |
           sudo git clone https://github.com/Gcenx/macports-wine.git
           mkdir -p /opt/macports-wine
-          cp -a macports-wine/. /opt/macports-wine
+          cp -a macports-wine /opt/macports-wine
           sudo port -v sync
 
       - name: Install build dependencies
