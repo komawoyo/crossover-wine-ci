@@ -63,10 +63,9 @@ jobs:
       - name: Install runtime dependencies
         run: |
           sudo port install \
-            ffmpeg7 \
             freetype \
             gettext-runtime \
-            #gnutls-devel \
+            gnutls-devel \
             gstreamer1-gst-plugins-base \
             libinotify \
             moltenvk \
