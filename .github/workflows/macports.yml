@@ -71,7 +71,18 @@ jobs:
             moltenvk \
             winetricks \
             libsdl2
-          
+
+      - name: Echo Libs [DEBUG]
+        run: |
+          echo "Brew Libs"
+          ls /opt/local/lib
+
+          echo "FFmpeg Libs" 
+          ls /opt/local/lib | grep -i "ffmpeg"
+
+          echo "GStreamer Libs"
+          ls /opt/local/lib/gstreamer-1.0
+
       - name: Download Crossover Sources
         run: |
           curl -o ${{ env.CROSS_OVER_LOCAL_FILE }}.tar.gz ${{ env.CROSS_OVER_SOURCE_URL }}
