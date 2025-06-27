@@ -78,7 +78,7 @@ jobs:
           ls /opt/local/lib
 
           echo "FFmpeg Libs" 
-          ls /opt/local/lib | grep -i "ffmpeg"
+          #ls /opt/local/lib
 
           echo "GStreamer Libs"
           ls /opt/local/lib/gstreamer-1.0
