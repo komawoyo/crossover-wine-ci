@@ -67,6 +67,7 @@ jobs:
             gettext-runtime \
             gnutls-devel \
             gstreamer1-gst-plugins-good \
+            gstreamer1-gst-libav \
             libinotify \
             moltenvk \
             winetricks \
@@ -78,7 +79,7 @@ jobs:
           ls /opt/local/lib
 
           echo "FFmpeg Libs" 
-          #ls /opt/local/lib
+          ls /opt/local/bin
 
           echo "GStreamer Libs"
           ls /opt/local/lib/gstreamer-1.0
@@ -99,7 +100,6 @@ jobs:
         continue-on-error: true
         run: |
           set -x
-          xxx
           export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
           export ac_cv_lib_soname_vulkan=""
           
@@ -175,9 +175,8 @@ jobs:
           rm -rf ${{ env.ARCHIVE_ROOT }}/Wine/share/man
 
           cp -a /opt/local/bin/winetricks ${{ env.ARCHIVE_ROOT }}
-          which winetricks
           cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
-          cp -a DXVK ${{ env.ARCHIVE_ROOT }}/DXVK
+          cp -a DXVK ${{ env.ARCHIVE_ROOT }}
 
       - name: Copy External Libs
         continue-on-error: true
