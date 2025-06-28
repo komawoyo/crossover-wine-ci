@@ -66,7 +66,7 @@ jobs:
             freetype \
             gettext-runtime \
             gnutls-devel \
-            gstreamer1-gst-libav \
+            gstreamer1-gst-plugins-good \
             libinotify \
             moltenvk \
             winetricks \
@@ -99,7 +99,7 @@ jobs:
         continue-on-error: true
         run: |
           set -x
-
+          xxx
           export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
           export ac_cv_lib_soname_vulkan=""
           
@@ -175,6 +175,7 @@ jobs:
           rm -rf ${{ env.ARCHIVE_ROOT }}/Wine/share/man
 
           cp -a /opt/local/bin/winetricks ${{ env.ARCHIVE_ROOT }}
+          which winetricks
           cp -a verbs.txt ${{ env.ARCHIVE_ROOT }}
           cp -a DXVK ${{ env.ARCHIVE_ROOT }}/DXVK
 
