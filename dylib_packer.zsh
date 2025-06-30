@@ -27,6 +27,7 @@ GSTREAMER_LIBS=(
 LIBS=(
     "libMoltenVK"
     "libSDL2-2.0.0"
+    "libinotify.0"
 )
 
 # Global array to store all discovered dylibs, with unique entries only
