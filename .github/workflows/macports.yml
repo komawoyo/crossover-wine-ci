@@ -68,7 +68,7 @@ jobs:
             gnutls-devel \
             gstreamer1-gst-plugins-good \
             gstreamer1-gst-libav \
-            libnotify \
+            libinotify \
             moltenvk \
             winetricks \
             libsdl2
